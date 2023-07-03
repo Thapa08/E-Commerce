@@ -18,7 +18,7 @@
     <div class="col-sm-6">
      <div class="card">
       <div class="card-body">
-       <h3>Address {{address.id}}</h3>
+       <h3>Address {{forloop.counter}}</h3>
        <p>Name: {{address.name}}</p>
        <p>City: {{address.city}}</p>
        <p>District: {{address.district}}</p>
@@ -31,4 +31,6 @@
   </div>
  </div>
 </div>
+
+
 {% endblock body %}

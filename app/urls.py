@@ -24,6 +24,7 @@ urlpatterns = [
     path('checkout/', views.checkout,name='checkout'),
     path('paymentdone/', views.paymentdone,name='paymentdone'),
     path('buy/<int:id>', views.buy,name='buy'),
+    path('search/', views.search,name='search'),
 
 # AJAX
     path('minus/', views.minus,name='minus'),

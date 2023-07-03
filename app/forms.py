@@ -1,5 +1,21 @@
 from .models import Customer,Product,Order_placed,Cart
 from django import forms
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+
+class CustomUserForm(UserCreationForm):
+    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+
+    def clean_username(self):
+        uname = self.cleaned_data.get('username',None)
+        data = User.objects.filter(username__iexact=uname)
+        if data.exists():
+            raise forms.ValidationError("Username already exists")
+        return uname
+
+    class Meta:
+        model = User
+        fields = ['first_name','username','password','password2']
 
 class CustomerForm(forms.ModelForm):
     

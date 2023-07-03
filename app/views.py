@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
-from .forms import CustomerForm,CartForm
+from .forms import CustomerForm,CartForm,CustomUserForm
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm,PasswordChangeForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.forms import AuthenticationForm
@@ -8,6 +8,7 @@ from .models import Customer,Product,Order_placed,Cart
 from django.db.models import Q
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 # Create your views here.
 
 def home(request):
@@ -21,14 +22,15 @@ def home(request):
 
 def registration(request):
     if request.method == 'POST':
-        form = UserCreationForm(data=request.POST)
+        form = CustomUserForm(data=request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.first_name = request.POST.get('first_name')
             user.is_staff = True
             user.save()
+            messages.success(request,'User Created Sucessfully')
     else:
-        form = UserCreationForm() 
+        form = CustomUserForm() 
     return render(request,'register.html',{"form":form})
 
 
@@ -62,6 +64,7 @@ def profile(request):
             user = form.save(commit=False)
             user.user = request.user
             user.save()
+            messages.success(request,'Address Added Sucessfully')
             return redirect('profile')
     else:
         form = CustomerForm()
@@ -81,6 +84,7 @@ def change_password(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.save()
+            messages.success(request,'Password Changed Sucessfully')
     else:
         form = PasswordChangeForm(user=request.user)
     return render(request,'changepassword.html',{'form':form})
@@ -281,3 +285,10 @@ def paymentdone(request):
         Order_placed(user=user,customer=customer,product=c.product,quantity=c.quantity).save()
         c.delete()
     return redirect('orders')
+
+def search(request):
+    text = request.GET.get('query')
+    product = Product.objects.filter(name = text).first()
+    id = product.id
+    print(text)
+    return redirect('product/id')
