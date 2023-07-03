@@ -1,0 +1,78 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}Profile{% endblock title %}
+{% block body %}
+<div class="container my-5">
+ <div class="row">
+  <h3>Welcome {{request.user}}</h3>
+  <div class="col-sm-2 border-end">
+   <ul class="list-unstyled">
+    <li class="d-grid"><a href="{% url 'profile' %}" class="btn btn-primary">Profile</a></li>
+    <li class="d-grid"><a href="{% url 'address' %}" class="btn">Address</a></li>
+    <li class="d-grid"><a href="{% url 'orders' %}" class="btn">Orders</a></li>
+   </ul>
+  </div>
+  <div class="col-sm-8 offset-sm-1">
+   <form action="" method="post">
+    {% csrf_token %}
+    
+    {% if form.non_field_errors %}
+    {% for error in form.non_field_errors %}
+    <p>{{error}}</p>
+    {% endfor %}
+    {% endif %}
+
+    <div class="col-12">
+        <input type="text" class="form-control" id="inputName" name="name">
+        <label for="inputName" class="form-label">Name</label>
+        {% if form.name.errors %}
+        {{form.name.errors}}
+        {% endif %}
+    </div>
+    <div class="col-12">
+        <input type="text" class="form-control" id="inputCity" placeholder="Godawari" name="city">
+        <label for="inputAddress" class="form-label">City</label>
+        {% if form.city.errors %}
+        {{form.city.errors}}
+        {% endif %}
+    </div>
+    <div class="col-12">
+        <input type="text" class="form-control" id="inputDistrict" placeholder="Lalitpur" name="district">
+        <label for="inputAddress2" class="form-label">District</label>
+        {% if form.district.errors %}
+        {{form.district.errors}}
+        {% endif %}
+    </div>
+    
+    <div class="col-md-4">
+      
+      <select id="inputState" class="form-select" name="state">
+        <option selected>Choose...</option>
+        <option>Pradesh-1</option>
+        <option>Pradesh-2</option>
+        <option>Pradesh-3</option>
+        <option>Pradesh-4</option>
+        <option>Pradesh-5</option>
+        <option>Pradesh-6</option>
+        <option>Pradesh-7</option>
+      </select>
+      <label for="inputState" class="form-label">State</label>
+      {% if form.state.errors %}
+        {{form.state.errors}}
+        {% endif %}
+    </div>
+    <div class="col-md-2">
+        <input type="text" class="form-control" id="inputZip" name="zip_code">
+        <label for="inputZip" class="form-label">Zip</label>
+        {% if form.zip_code.errors %}
+        {{form.zip_code.errors}}
+        {% endif %}
+    </div>
+    <div class="col-12 mt-3">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+   </form>
+  </div>
+ </div>
+</div>
+{% endblock body %}

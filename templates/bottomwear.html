@@ -1,0 +1,69 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}BottomWears{% endblock title %}
+{% block body %}
+<div class="container my-5">
+ <div class="row">
+  <div class="col-sm-3">
+   <div class="list-group">
+    <h2>BottomWears</h2>
+    <a href="{% url 'bottomwears' %}" class="list-group-item list-group-item-action" aria-current="true">All Bottomwears</a>
+    <a href="{% url 'bottomweardata' 'Levis' %}" class="list-group-item list-group-item-action" aria-current="true">Levis</a>
+    <a href="{% url 'bottomweardata' 'Prada' %}" class="list-group-item list-group-item-action" aria-current="true">Prada</a>
+   </div>
+   <br>
+   <div class="list-group">
+    <h2>Price</h2>
+    <a href="{% url 'bottomweardata' 'below' %}" class="list-group-item list-group-item-action" aria-current="true">Below $10</a>
+    <a href="{% url 'bottomweardata' 'above' %}" class="list-group-item list-group-item-action" aria-current="true">Above $10</a>
+   </div>
+  </div>
+  
+  <div class="col-sm-9">
+    <div class="mt-4">
+        <h2><strong>Our BottomWears</strong></h2>
+        <section>
+            <div class="container py-5 ">
+              <div class="row">
+                {% for bw in bottomwears %}
+                <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
+                  <div class="card pt-4">
+                    
+                    <img src="{{bw.image.url}}"
+                      class="card-img-top phone_img" alt="{{bw.name}}" />
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <p class="small">{{bw.category}}</p>
+                        <p class="small text-danger"><s>${{bw.selling_price}}</s></p>
+                      </div>
+          
+                      <div class="d-flex justify-content-between mb-3">
+                        <a href="{% url 'product' bw.id %}" class="mb-0">{{bw.name}}</a>
+                        <h5 class="text-dark mb-0">${{bw.discounted_price}}</h5>
+                      </div>
+          
+                      <div class="d-flex justify-content-between mb-2">
+                        <p class="text-muted mb-0">Available: <span class="fw-bold">6</span></p>
+                        <div class="ms-auto text-warning">
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                        </div>
+                      </div>
+                      <a href="{% url 'add_cart' bw.id %}" type="button" class="btn btn-warning">Add to cart</a>
+                      
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </section>
+        </div>
+  </div>
+  
+ </div>
+</div>
+{% endblock body %}
