@@ -287,8 +287,12 @@ def paymentdone(request):
     return redirect('orders')
 
 def search(request):
-    text = request.GET.get('query')
-    product = Product.objects.filter(name = text).first()
-    id = product.id
+    text = request.GET.get('data')
     print(text)
-    return redirect('product/id')
+    product = Product.objects.filter(name = text).first()
+    if product:
+        id = product.id
+        return redirect('product',id)
+    else:
+        return render(request,'nomatch.html')
+    
